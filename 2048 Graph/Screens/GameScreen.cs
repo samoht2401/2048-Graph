@@ -17,11 +17,12 @@ namespace _2048_Graph.Screens
     {
         Dictionary<int, Texture> TextureNumbersDic = new Dictionary<int, Texture>();
         Texture background;
+        Texture scoreTex;
 
-        int[,] tableau = new int[4, 4]{ { 2, 0, 0, 0 }, // pour [X,Y] : X vertical, Y horizontale
-	                                    { 0, 4, 0, 0 }, // !!! La table est donc transposé (symétrique à la diagonale haut-gauche, bas-droite)
-	                                    { 0, 0, 4, 0 },
-	                                    { 0, 0, 0, 2 } };
+        int[,] tableau = new int[4, 4]{ { 0, 0, 0, 0 }, // pour [X,Y] : X vertical, Y horizontale
+	                                    { 0, 0, 0, 0 }, // !!! La table est donc transposé (symétrique à la diagonale haut-gauche, bas-droite)
+	                                    { 0, 0, 0, 0 },
+	                                    { 0, 0, 0, 0 } };
 
         public GameScreen(ScreenManager manager)
             : base(manager)
@@ -41,19 +42,22 @@ namespace _2048_Graph.Screens
             TextureNumbersDic.Add(1024, TextureHelper.LoadTexture("Sprites\\1024.png"));
             TextureNumbersDic.Add(2048, TextureHelper.LoadTexture("Sprites\\2048.png"));
             background = TextureHelper.LoadTexture("Sprites\\grille.png");
+            scoreTex = TextureHelper.GetTextTexture("Holà!");
 
             InputHelper.Keyboard.KeyDown += Keyboard_KeyDown;
+
+            GetNewNumber();
         }
 
         public override void Update(TimeSpan elapsed, bool isInForeground)
         {
             base.Update(elapsed, isInForeground);
 
-            if (IsLost())
+            if (State == States.Opened && IsLost())
                 Manager.CloseAllAndThenOpen(new MainMenuScreen(Manager));
         }
 
-        void Keyboard_KeyDown(object sender, KeyboardKeyEventArgs e)
+        private void Keyboard_KeyDown(object sender, KeyboardKeyEventArgs e)
         {
             int[,] oldTableau = (int[,])tableau.Clone();
             if (e.Key == Key.Left) // Left Arrow is pressed
@@ -203,7 +207,6 @@ namespace _2048_Graph.Screens
             if (oldTableau != tableau && !IsTableauFull())
                 GetNewNumber();
         }
-
         private bool IsTableauFull()
         {
             bool isThere0 = false;
@@ -222,8 +225,7 @@ namespace _2048_Graph.Screens
             }
             return !isThere0;
         }
-
-        void GetNewNumber()
+        private void GetNewNumber()
         {
             //Randomize :
             int val = 0;
@@ -236,14 +238,13 @@ namespace _2048_Graph.Screens
             for (int i = 500; i > 0; i--)
             {
                 r = rand.Next(0, 16);
-                if (tableau[r % 4,r / 4] == 0)
+                if (tableau[r % 4, r / 4] == 0)
                 {
                     tableau[r % 4, r / 4] = val;
                     break;
                 }
             }
         }
-
         private bool IsLost()
         {
             if (!IsTableauFull())
@@ -255,11 +256,11 @@ namespace _2048_Graph.Screens
             {
                 int pair = i / 2 % 2; // Pair == 0 // Impair == 1
                 int x = i % 2 + pair;
-                int y = i / 2 + pair;
+                int y = i / 2;
 
-                int val = tableau[x,y];
-                if ((x > 0 && val == tableau[x - 1,y]) || (x < 3 && val == tableau[x + 1,y]) ||
-                    (y > 0 && val == tableau[x,y - 1]) || (y < 3 && val == tableau[x,y + 1]))
+                int val = tableau[x, y];
+                if ((x > 0 && val == tableau[x - 1, y]) || (x < 3 && val == tableau[x + 1, y]) ||
+                    (y > 0 && val == tableau[x, y - 1]) || (y < 3 && val == tableau[x, y + 1]))
                 {
                     canCombine = true;
                     break;
@@ -278,6 +279,8 @@ namespace _2048_Graph.Screens
 
             background.Bind();
             DrawHelper.Draw2DSprite(0, 0, 533, 670, -1);
+            //scoreTex.Bind();
+            //DrawHelper.Draw2DSprite(0, 0, 500, 120, 1);
 
             for (int x = 0; x < 4; x++)
             {
@@ -290,9 +293,6 @@ namespace _2048_Graph.Screens
                     }
                 }
             }
-
-            /*testTex.Bind();
-            DrawHelper.Draw2DSprite(0, 0, 1024, 1024, -1f);*/
 
             DrawControls(elapsed, isInForeground);
 
