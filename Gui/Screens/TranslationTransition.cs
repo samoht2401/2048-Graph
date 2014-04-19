@@ -22,7 +22,7 @@ namespace Gui.Screens
         public TranslationTransition(Transition.Types type, Directions dir)
             : base(type)
         {
-            TotalTime = TimeSpan.FromMilliseconds(2000);
+            TotalTime = TimeSpan.FromMilliseconds(4000);
             Direction = dir;
         }
 

@@ -37,7 +37,7 @@ namespace _2048_Graph.Screens
 
         void button_MouseButtonDown(object sender, GuiMouseButtonEventArgs e)
         {
-            Manager.CloseAllAndThenOpen(new MainMenuScreen(Manager));
+            Manager.CloseAllAndThenOpen(new GameScreen(Manager));
         }
 
         public override void Update(TimeSpan elapsed, bool isInForeground)
