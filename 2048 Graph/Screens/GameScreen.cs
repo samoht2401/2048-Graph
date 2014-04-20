@@ -15,9 +15,11 @@ namespace _2048_Graph.Screens
 {
     public class GameScreen : Screen
     {
-        Dictionary<int, Texture> TextureNumbersDic = new Dictionary<int, Texture>();
-        Texture background;
-        Texture scoreTex;
+        private Dictionary<int, Texture> TextureNumbersDic = new Dictionary<int, Texture>();
+        private Texture background;
+        private Texture scoreTex;
+        private int oldScore = 0;
+        private int score = 0;
 
         int[,] tableau = new int[4, 4]{ { 0, 0, 0, 0 }, // pour [X,Y] : X vertical, Y horizontale
 	                                    { 0, 0, 0, 0 }, // !!! La table est donc transposé (symétrique à la diagonale haut-gauche, bas-droite)
@@ -42,7 +44,7 @@ namespace _2048_Graph.Screens
             TextureNumbersDic.Add(1024, TextureHelper.LoadTexture("Sprites\\1024.png"));
             TextureNumbersDic.Add(2048, TextureHelper.LoadTexture("Sprites\\2048.png"));
             background = TextureHelper.LoadTexture("Sprites\\grille.png");
-            scoreTex = TextureHelper.GetTextTexture("Holà!");
+            scoreTex = TextureHelper.GetTextTexture("score", score.ToString(), 16);
 
             InputHelper.Keyboard.KeyDown += Keyboard_KeyDown;
 
@@ -55,6 +57,10 @@ namespace _2048_Graph.Screens
 
             if (State == States.Opened && IsLost())
                 Manager.CloseAllAndThenOpen(new MainMenuScreen(Manager));
+
+            if(score != oldScore)
+                scoreTex = TextureHelper.GetTextTexture("score", score.ToString(), 16);
+            oldScore = score;
         }
 
         private void Keyboard_KeyDown(object sender, KeyboardKeyEventArgs e)
@@ -78,6 +84,7 @@ namespace _2048_Graph.Screens
                                     {
                                         tableau[x, y] = 0;
                                         tableau[x - i, y] = val * 2;
+                                        score += val * 2;
                                     }
                                     else if (i > 1)//Collision
                                     {
@@ -114,6 +121,7 @@ namespace _2048_Graph.Screens
                                     {
                                         tableau[x, y] = 0;
                                         tableau[x + i, y] = val * 2;
+                                        score += val * 2;
                                     }
                                     else if (i > 1)
                                     {
@@ -150,6 +158,7 @@ namespace _2048_Graph.Screens
                                     {
                                         tableau[x, y] = 0;
                                         tableau[x, y - i] = val * 2;
+                                        score += val * 2;
                                     }
                                     else if (i > 1)
                                     {
@@ -186,6 +195,7 @@ namespace _2048_Graph.Screens
                                     {
                                         tableau[x, y] = 0;
                                         tableau[x, y + i] = val * 2;
+                                        score += val * 2;
                                     }
                                     else if (i > 1)
                                     {
@@ -279,8 +289,8 @@ namespace _2048_Graph.Screens
 
             background.Bind();
             DrawHelper.Draw2DSprite(0, 0, 533, 670, -1);
-            //scoreTex.Bind();
-            //DrawHelper.Draw2DSprite(0, 0, 500, 120, 1);
+            scoreTex.Bind();
+            DrawHelper.Draw2DSprite(0, 0, scoreTex.Width, scoreTex.Height, 1);
 
             for (int x = 0; x < 4; x++)
             {
