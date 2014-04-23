@@ -18,6 +18,17 @@ namespace _2048_Graph
     {
         ScreenManager screenManager;
 
+        private static bool wasForcedResize = false;
+        private static bool isForcedResize = false;
+        private static int forcedWidth = 0;
+        private static int forcedHeight = 0;
+        public static void ForceResize(int width, int height)
+        {
+            isForcedResize = true;
+            forcedWidth = width;
+            forcedHeight = height;
+        }
+
         public Game()
             : base()
         {
@@ -47,7 +58,6 @@ namespace _2048_Graph
 
             GL.Viewport(0, 0, Width, Height);
             screenManager.Resize(Width, Height);
-            WindowBorder = WindowBorder.Resizable;
             DrawHelper.Reset2DMatrix();
         }
 
@@ -55,6 +65,19 @@ namespace _2048_Graph
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
+
+            if (isForcedResize != wasForcedResize)
+            {
+                if (isForcedResize)
+                {
+                    Width = forcedWidth;
+                    Height = forcedHeight;
+                    WindowBorder = WindowBorder.Fixed;
+                }
+                else
+                    WindowBorder = WindowBorder.Resizable;
+                wasForcedResize = isForcedResize;
+            }
 
             screenManager.Update(TimeSpan.FromSeconds(e.Time));
         }

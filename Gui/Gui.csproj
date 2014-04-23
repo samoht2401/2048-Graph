@@ -60,6 +60,7 @@
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Helper\DrawHelper.cs" />
     <Compile Include="Helper\InputHelper.cs" />
+    <Compile Include="Helper\Text.cs" />
     <Compile Include="Helper\Texture.cs" />
     <Compile Include="Helper\TextureHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

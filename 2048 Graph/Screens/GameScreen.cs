@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using Gui.Screens;
@@ -17,7 +18,7 @@ namespace _2048_Graph.Screens
     {
         private Dictionary<int, Texture> TextureNumbersDic = new Dictionary<int, Texture>();
         private Texture background;
-        private Texture scoreTex;
+        private Text scoreTex;
         private int oldScore = 0;
         private int score = 0;
 
@@ -29,6 +30,8 @@ namespace _2048_Graph.Screens
         public GameScreen(ScreenManager manager)
             : base(manager)
         {
+            Game.ForceResize(533, 670);
+
             OpeningTransition = new TranslationTransition(Transition.Types.Opening, TranslationTransition.Directions.Left);
             ClosingTransition = new TranslationTransition(Transition.Types.Closing, TranslationTransition.Directions.Right);
 
@@ -44,7 +47,8 @@ namespace _2048_Graph.Screens
             TextureNumbersDic.Add(1024, TextureHelper.LoadTexture("Sprites\\1024.png"));
             TextureNumbersDic.Add(2048, TextureHelper.LoadTexture("Sprites\\2048.png"));
             background = TextureHelper.LoadTexture("Sprites\\grille.png");
-            scoreTex = TextureHelper.GetTextTexture("score", score.ToString(), 16);
+            scoreTex = new Text(score.ToString());
+            scoreTex.Font = new Font("Arial", 24, FontStyle.Regular);
 
             InputHelper.Keyboard.KeyDown += Keyboard_KeyDown;
 
@@ -58,14 +62,20 @@ namespace _2048_Graph.Screens
             if (State == States.Opened && IsLost())
                 Manager.CloseAllAndThenOpen(new MainMenuScreen(Manager));
 
-            if(score != oldScore)
-                scoreTex = TextureHelper.GetTextTexture("score", score.ToString(), 16);
+            if (score != oldScore)
+            {
+                scoreTex.Texte = score.ToString();
+                if(score>999 && oldScore <=999)
+                    scoreTex.Font = new Font("Arial", 18, FontStyle.Regular);
+                if (score > 9999 && oldScore <= 9999)
+                    scoreTex.Font = new Font("Arial", 16, FontStyle.Regular);
+            }
             oldScore = score;
         }
 
         private void Keyboard_KeyDown(object sender, KeyboardKeyEventArgs e)
         {
-            int[,] oldTableau = (int[,])tableau.Clone();
+            bool changed = false;
             if (e.Key == Key.Left) // Left Arrow is pressed
             {
                 for (int x = 1; x < 4; x++)
@@ -85,11 +95,13 @@ namespace _2048_Graph.Screens
                                         tableau[x, y] = 0;
                                         tableau[x - i, y] = val * 2;
                                         score += val * 2;
+                                        changed = true;
                                     }
                                     else if (i > 1)//Collision
                                     {
                                         tableau[x, y] = 0;
                                         tableau[x - i + 1, y] = val;
+                                        changed = true;
                                     }
                                     break;
                                 }
@@ -97,6 +109,7 @@ namespace _2048_Graph.Screens
                                 {
                                     tableau[x, y] = 0;
                                     tableau[0, y] = val;
+                                    changed = true;
                                 }
                             }
                         }
@@ -122,11 +135,13 @@ namespace _2048_Graph.Screens
                                         tableau[x, y] = 0;
                                         tableau[x + i, y] = val * 2;
                                         score += val * 2;
+                                        changed = true;
                                     }
                                     else if (i > 1)
                                     {
                                         tableau[x, y] = 0;
                                         tableau[x + i - 1, y] = val;
+                                        changed = true;
                                     }
                                     break;
                                 }
@@ -134,6 +149,7 @@ namespace _2048_Graph.Screens
                                 {
                                     tableau[x, y] = 0;
                                     tableau[3, y] = val;
+                                    changed = true;
                                 }
                             }
                         }
@@ -159,11 +175,13 @@ namespace _2048_Graph.Screens
                                         tableau[x, y] = 0;
                                         tableau[x, y - i] = val * 2;
                                         score += val * 2;
+                                        changed = true;
                                     }
                                     else if (i > 1)
                                     {
                                         tableau[x, y] = 0;
                                         tableau[x, y - i + 1] = val;
+                                        changed = true;
                                     }
                                     break;
                                 }
@@ -171,6 +189,7 @@ namespace _2048_Graph.Screens
                                 {
                                     tableau[x, y] = 0;
                                     tableau[x, 0] = val;
+                                    changed = true;
                                 }
                             }
                         }
@@ -196,11 +215,13 @@ namespace _2048_Graph.Screens
                                         tableau[x, y] = 0;
                                         tableau[x, y + i] = val * 2;
                                         score += val * 2;
+                                        changed = true;
                                     }
                                     else if (i > 1)
                                     {
                                         tableau[x, y] = 0;
                                         tableau[x, y + i - 1] = val;
+                                        changed = true;
                                     }
                                     break;
                                 }
@@ -208,13 +229,14 @@ namespace _2048_Graph.Screens
                                 {
                                     tableau[x, y] = 0;
                                     tableau[x, 3] = val;
+                                    changed = true;
                                 }
                             }
                         }
                     }
                 }
             }
-            if (oldTableau != tableau && !IsTableauFull())
+            if (changed && !IsTableauFull())
                 GetNewNumber();
         }
         private bool IsTableauFull()
@@ -289,8 +311,7 @@ namespace _2048_Graph.Screens
 
             background.Bind();
             DrawHelper.Draw2DSprite(0, 0, 533, 670, -1);
-            scoreTex.Bind();
-            DrawHelper.Draw2DSprite(0, 0, scoreTex.Width, scoreTex.Height, 1);
+            scoreTex.Draw(380, 50, 0,true);
 
             for (int x = 0; x < 4; x++)
             {

@@ -128,7 +128,7 @@ namespace Gui.Helper
             GL.PushMatrix();
 
             if (centered)
-                GL.Translate(x - width / 2.0, y - height / 2.0, depth);
+                GL.Translate(x - width / 2, y - height / 2, depth);
             else
                 GL.Translate(x, y, depth);
             GL.Scale(width, height, 1);

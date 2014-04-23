@@ -10,6 +10,8 @@ namespace Gui.Helper
     public class Texture
     {
         private int gl_id;
+        public int Id { get { return gl_id; } }
+
         public readonly int Width;
         public readonly int Height;
 

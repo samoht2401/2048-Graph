@@ -37,7 +37,7 @@ namespace Gui.Helper
             return result;
         }
 
-        private static Dictionary<string, Texture> textTextures = new Dictionary<string, Texture>();
+        /*private static Dictionary<string, Texture> textTextures = new Dictionary<string, Texture>();
         public static Texture GetTextTexture(string key, string text)
         {
             Font font = new Font(FontFamily.GenericSansSerif, 128, FontStyle.Regular);
@@ -103,8 +103,11 @@ namespace Gui.Helper
                 textTextures.Add(key, result);
             }
             else
+            {
+                result = new Texture(id, img.Width, img.Height);
                 result = textTextures[key];
+            }
             return result;
-        }
+        }*/
     }
 }
