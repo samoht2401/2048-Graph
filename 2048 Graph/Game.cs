@@ -20,6 +20,8 @@ namespace _2048_Graph
 
         private static bool wasForcedResize = false;
         private static bool isForcedResize = false;
+        private static int oldWidth;
+        private static int oldHeight;
         private static int forcedWidth = 0;
         private static int forcedHeight = 0;
         public static void ForceResize(int width, int height)
@@ -27,6 +29,10 @@ namespace _2048_Graph
             isForcedResize = true;
             forcedWidth = width;
             forcedHeight = height;
+        }
+        public static void FreeResize()
+        {
+            isForcedResize = false;
         }
 
         public Game()
@@ -70,12 +76,18 @@ namespace _2048_Graph
             {
                 if (isForcedResize)
                 {
+                    oldWidth = Width;
+                    oldHeight = Height;
                     Width = forcedWidth;
                     Height = forcedHeight;
                     WindowBorder = WindowBorder.Fixed;
                 }
                 else
+                {
+                    Width = oldWidth;
+                    Height = oldHeight;
                     WindowBorder = WindowBorder.Resizable;
+                }
                 wasForcedResize = isForcedResize;
             }
 

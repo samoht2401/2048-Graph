@@ -11,10 +11,11 @@ using Gui.Sprites;
 using Gui.Helper;
 using Gui.Controls;
 using Gui.Bounds;
+using _2048_Graph.Screens;
 
-namespace _2048_Graph.Screens
+namespace _2048_Graph._2048
 {
-    public class GameScreen : Screen
+    public class Game2048Screen : Screen
     {
         private Dictionary<int, Texture> TextureNumbersDic = new Dictionary<int, Texture>();
         private Texture background;
@@ -27,32 +28,44 @@ namespace _2048_Graph.Screens
 	                                    { 0, 0, 0, 0 },
 	                                    { 0, 0, 0, 0 } };
 
-        public GameScreen(ScreenManager manager)
+        public Game2048Screen(ScreenManager manager)
             : base(manager)
         {
-            Game.ForceResize(533, 670);
-
             OpeningTransition = new TranslationTransition(Transition.Types.Opening, TranslationTransition.Directions.Left);
             ClosingTransition = new TranslationTransition(Transition.Types.Closing, TranslationTransition.Directions.Right);
 
-            TextureNumbersDic.Add(2, TextureHelper.LoadTexture("Sprites\\2.png"));
-            TextureNumbersDic.Add(4, TextureHelper.LoadTexture("Sprites\\4.png"));
-            TextureNumbersDic.Add(8, TextureHelper.LoadTexture("Sprites\\8.png"));
-            TextureNumbersDic.Add(16, TextureHelper.LoadTexture("Sprites\\16.png"));
-            TextureNumbersDic.Add(32, TextureHelper.LoadTexture("Sprites\\32.png"));
-            TextureNumbersDic.Add(64, TextureHelper.LoadTexture("Sprites\\64.png"));
-            TextureNumbersDic.Add(128, TextureHelper.LoadTexture("Sprites\\128.png"));
-            TextureNumbersDic.Add(256, TextureHelper.LoadTexture("Sprites\\256.png"));
-            TextureNumbersDic.Add(512, TextureHelper.LoadTexture("Sprites\\512.png"));
-            TextureNumbersDic.Add(1024, TextureHelper.LoadTexture("Sprites\\1024.png"));
-            TextureNumbersDic.Add(2048, TextureHelper.LoadTexture("Sprites\\2048.png"));
-            background = TextureHelper.LoadTexture("Sprites\\grille.png");
+            TextureNumbersDic.Add(2, TextureHelper.LoadTexture("Sprites\\2048\\2.png"));
+            TextureNumbersDic.Add(4, TextureHelper.LoadTexture("Sprites\\2048\\4.png"));
+            TextureNumbersDic.Add(8, TextureHelper.LoadTexture("Sprites\\2048\\8.png"));
+            TextureNumbersDic.Add(16, TextureHelper.LoadTexture("Sprites\\2048\\16.png"));
+            TextureNumbersDic.Add(32, TextureHelper.LoadTexture("Sprites\\2048\\32.png"));
+            TextureNumbersDic.Add(64, TextureHelper.LoadTexture("Sprites\\2048\\64.png"));
+            TextureNumbersDic.Add(128, TextureHelper.LoadTexture("Sprites\\2048\\128.png"));
+            TextureNumbersDic.Add(256, TextureHelper.LoadTexture("Sprites\\2048\\256.png"));
+            TextureNumbersDic.Add(512, TextureHelper.LoadTexture("Sprites\\2048\\512.png"));
+            TextureNumbersDic.Add(1024, TextureHelper.LoadTexture("Sprites\\2048\\1024.png"));
+            TextureNumbersDic.Add(2048, TextureHelper.LoadTexture("Sprites\\2048\\2048.png"));
+            background = TextureHelper.LoadTexture("Sprites\\2048\\grille.png");
             scoreTex = new Text(score.ToString());
             scoreTex.Font = new Font("Arial", 24, FontStyle.Regular);
 
             InputHelper.Keyboard.KeyDown += Keyboard_KeyDown;
 
             GetNewNumber();
+        }
+
+        public override void Open()
+        {
+            base.Open();
+
+            Game.ForceResize(533, 670);
+        }
+
+        public override void Close()
+        {
+            base.Close();
+
+            Game.FreeResize();
         }
 
         public override void Update(TimeSpan elapsed, bool isInForeground)
