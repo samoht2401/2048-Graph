@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using Gui.Bounds;
 
 namespace Gui.Helper
 {
@@ -101,28 +102,34 @@ namespace Gui.Helper
             }
         }
 
-        private static int listIndex = int.MaxValue;
-        public static void Draw2DSprite()
+        private static Dictionary<Vector4, int> listsIndex = new Dictionary<Vector4, int>();
+        private static readonly Vector4 fullTexCoordRect = Vector4.UnitZ + Vector4.UnitW;
+        public static void Draw2DSprite(Vector4 texCoordRect)
         {
-            if (listIndex == int.MaxValue)
+            if (!listsIndex.ContainsKey(texCoordRect))
             {
-                listIndex = GL.GenLists(1);
-                GL.NewList(listIndex, ListMode.Compile);
+                int index = GL.GenLists(1);
+                listsIndex.Add(texCoordRect, index);
+                GL.NewList(index, ListMode.Compile);
                 GL.Begin(PrimitiveType.QuadStrip);
-                GL.TexCoord3(0.0f, 0.0f, 0.0f);
+                GL.TexCoord3(texCoordRect.X, texCoordRect.Y, 0.0f);
                 GL.Vertex3(0f, 0f, 0.0f);
-                GL.TexCoord3(0.0f, 1.0f, 0.0f);
+                GL.TexCoord3(texCoordRect.X, texCoordRect.W, 0.0f);
                 GL.Vertex3(0f, 1f, 0.0f);
-                GL.TexCoord3(1.0f, 0.0f, 0.0f);
+                GL.TexCoord3(texCoordRect.Z, texCoordRect.Y, 0.0f);
                 GL.Vertex3(1f, 0f, 0.0f);
-                GL.TexCoord3(1.0f, 1.0f, 0.0f);
+                GL.TexCoord3(texCoordRect.Z, texCoordRect.W, 0.0f);
                 GL.Vertex3(1f, 1f, 0.0f);
                 GL.End();
                 GL.EndList();
             }
-            GL.CallList(listIndex);
+            GL.CallList(listsIndex[texCoordRect]);
         }
         public static void Draw2DSprite(int x, int y, int width, int height, float depth = 0, bool centered = false)
+        {
+            Draw2DSprite(x, y, width, height, fullTexCoordRect, depth, centered);
+        }
+        public static void Draw2DSprite(int x, int y, int width, int height, Vector4 texCoordRect, float depth = 0, bool centered = false)
         {
             GL.MatrixMode(MatrixMode.Modelview);
             GL.PushMatrix();
@@ -133,7 +140,7 @@ namespace Gui.Helper
                 GL.Translate(x, y, depth);
             GL.Scale(width, height, 1);
 
-            Draw2DSprite();
+            Draw2DSprite(texCoordRect);
 
             GL.PopMatrix();
         }

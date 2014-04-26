@@ -68,10 +68,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Screens\ScreenManager.cs" />
+    <Compile Include="Sprites\Animation.cs" />
     <Compile Include="Sprites\CompoundSprite.cs" />
     <Compile Include="Sprites\Sprite.cs" />
     <Compile Include="Screens\Transition.cs" />
     <Compile Include="Screens\TranslationTransition.cs" />
+    <Compile Include="Sprites\SpriteSheet.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

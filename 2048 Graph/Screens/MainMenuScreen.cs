@@ -16,6 +16,7 @@ namespace _2048_Graph.Screens
     public class MainMenuScreen : Screen
     {
         Texture testTex;
+        Animation birdAnim;
         float lastWheel;
         float zoom = 1;
 
@@ -31,6 +32,9 @@ namespace _2048_Graph.Screens
             sprites.Add("Pressed", new Sprite(TextureHelper.LoadTexture("Sprites\\Button\\base_pressed.png"), 256, 64));
             Controls.Add("button", new Button(sprites, RectangleBound.New(100, 100, 400, 100), 500));
             ((Button)Controls["button"]).Click += button_MouseButtonDown;
+
+            SpriteSheet birdSheet = new SpriteSheet("Sprites\\FlappyBird\\bird_17x12.png", 17, 12);
+            birdAnim = new Animation(birdSheet, 20f, true);
 
             //testTex = TextureHelper.LoadTexture("Sprites\\pieuvre.png");
             testTex = TextureHelper.LoadTexture("supernova.png");
@@ -68,6 +72,8 @@ namespace _2048_Graph.Screens
 
             testTex.Bind();
             DrawHelper.Draw2DSprite(0, 0, 1024, 1024, -1f);
+
+            birdAnim.Draw((float)elapsed.TotalSeconds, 60, 200, 5);
 
             DrawControls(elapsed, isInForeground);
 

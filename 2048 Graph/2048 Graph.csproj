@@ -128,6 +128,33 @@
     <Content Include="Img\Sprites\2048\grille.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Img\Sprites\FlappyBird\background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\Sprites\FlappyBird\bird.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\Sprites\FlappyBird\bird_17x12.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\Sprites\FlappyBird\flappy_bird.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\Sprites\FlappyBird\game_over.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\Sprites\FlappyBird\get_ready.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\Sprites\FlappyBird\number_7x10.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\Sprites\FlappyBird\pipe_down.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\Sprites\FlappyBird\pipe_up.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Img\Sprites\pieuvre.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
