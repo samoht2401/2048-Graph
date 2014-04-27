@@ -10,6 +10,7 @@ using Gui.Helper;
 using Gui.Controls;
 using Gui.Bounds;
 using _2048_Graph._2048;
+using _2048_Graph.FlappyBird;
 
 namespace _2048_Graph.Screens
 {
@@ -42,7 +43,7 @@ namespace _2048_Graph.Screens
 
         void button_MouseButtonDown(object sender, GuiMouseButtonEventArgs e)
         {
-            Manager.CloseAllAndThenOpen(new Game2048Screen(Manager));
+            Manager.CloseAllAndThenOpen(new GameFlappyBirdScreen(Manager));
         }
 
         public override void Update(TimeSpan elapsed, bool isInForeground)

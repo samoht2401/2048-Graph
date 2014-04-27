@@ -37,7 +37,7 @@ namespace Gui.Helper
             GL.Disable(EnableCap.Lighting);
             GL.Enable(EnableCap.Texture2D);
             GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusDstAlpha);
             GL.Color4(1f, 1f, 1f, 1f);
 
             isEnable = true;
@@ -104,7 +104,7 @@ namespace Gui.Helper
 
         private static Dictionary<Vector4, int> listsIndex = new Dictionary<Vector4, int>();
         private static readonly Vector4 fullTexCoordRect = Vector4.UnitZ + Vector4.UnitW;
-        public static void Draw2DSprite(Vector4 texCoordRect)
+        private static void Draw2DSprite(Vector4 texCoordRect)
         {
             if (!listsIndex.ContainsKey(texCoordRect))
             {

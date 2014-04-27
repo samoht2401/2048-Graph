@@ -73,6 +73,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FlappyBird\Bird.cs" />
+    <Compile Include="FlappyBird\GameFlappyBirdScreen.cs" />
+    <Compile Include="FlappyBird\Pipe.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -131,28 +134,16 @@
     <Content Include="Img\Sprites\FlappyBird\background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Img\Sprites\FlappyBird\bird.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Img\Sprites\FlappyBird\bird_17x12.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\Sprites\FlappyBird\flappy_bird.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\Sprites\FlappyBird\game_over.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\Sprites\FlappyBird\get_ready.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Img\Sprites\FlappyBird\number_7x10.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Img\Sprites\FlappyBird\pipe_down.png">
+    <Content Include="Img\Sprites\FlappyBird\pipe_26x12.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Img\Sprites\FlappyBird\pipe_up.png">
+    <Content Include="Img\Sprites\FlappyBird\text_96_22.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Img\Sprites\pieuvre.png">

@@ -62,10 +62,5 @@ namespace Gui.Helper
 
             return vec;
         }
-
-        /*public static void TransposeMouseCoordToGL()
-        {
-            Mouse.
-        }*/
     }
 }
