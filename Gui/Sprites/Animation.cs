@@ -39,15 +39,15 @@ namespace Gui.Sprites
                     index = 0;
             }
         }
-        public void Draw(float elapsed, int x, int y, float scale = 1, float depth = 0, bool centered = false)
+        public void Draw(float elapsed, int x, int y, float scale = 1, float rotate = 0, float depth = 0, bool centered = false)
         {
             ComputeElapsed(elapsed);
-            Sprites[index].Draw(x, y, scale, depth, centered);
+            Sprites[index].Draw(x, y, scale, rotate, depth, centered);
         }
-        public void Draw(float elapsed, int x, int y, int width, int height, float depth = 0, bool centered = false)
+        public void Draw(float elapsed, int x, int y, int width, int height, float rotate = 0, float depth = 0, bool centered = false)
         {
             ComputeElapsed(elapsed);
-            Sprites[index].Draw(x, y, width, height, depth, centered);
+            Sprites[index].Draw(x, y, width, height, rotate, depth, centered);
         }
     }
 }

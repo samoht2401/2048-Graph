@@ -12,9 +12,9 @@ namespace _2048_Graph.FlappyBird
 {
     public class Bird
     {
-        private const float ACCELERATION = 150f;
-        private const float GRAVITY = 60f;
-        private const float MAX_VERTICAL_VELOCITY = 500f;
+        private const float ACCELERATION = 120f;
+        private const float GRAVITY = 50f;
+        private const float MAX_VERTICAL_VELOCITY = 1000f;
 
         private Sprite idleBirdSprite;
         private Animation flyingBirdSprite;
@@ -39,6 +39,7 @@ namespace _2048_Graph.FlappyBird
             isSpaceDown = false;
             IsDead = false;
             position.X = 80;
+            position.Y = 500;
             RecaculeBound();
         }
 
@@ -69,7 +70,7 @@ namespace _2048_Graph.FlappyBird
             }
 
             position += Vector2.Multiply(velocity, (float)elapsed.TotalSeconds);
-            if (position.Y < -10 || position.Y > 700)
+            if (position.Y < -10 || position.Y > 1800)
                 IsDead = true;
             RecaculeBound();
         }

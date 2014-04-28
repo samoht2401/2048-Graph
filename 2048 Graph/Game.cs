@@ -18,23 +18,6 @@ namespace _2048_Graph
     {
         ScreenManager screenManager;
 
-        private static bool wasForcedResize = false;
-        private static bool isForcedResize = false;
-        private static int oldWidth;
-        private static int oldHeight;
-        private static int forcedWidth = 0;
-        private static int forcedHeight = 0;
-        public static void ForceResize(int width, int height)
-        {
-            isForcedResize = true;
-            forcedWidth = width;
-            forcedHeight = height;
-        }
-        public static void FreeResize()
-        {
-            isForcedResize = false;
-        }
-
         public Game()
             : base()
         {
@@ -48,6 +31,7 @@ namespace _2048_Graph
             DrawHelper.Enable2D();
 
             screenManager = new ScreenManager();
+            screenManager.Resize(1920, 1080);
             screenManager.OpenScreen(new MainMenuScreen(screenManager));
         }
 
@@ -63,7 +47,6 @@ namespace _2048_Graph
             base.OnResize(e);
 
             GL.Viewport(0, 0, Width, Height);
-            screenManager.Resize(Width, Height);
             DrawHelper.Reset2DMatrix();
         }
 
@@ -72,7 +55,7 @@ namespace _2048_Graph
         {
             base.OnUpdateFrame(e);
 
-            if (isForcedResize != wasForcedResize)
+            /*if (isForcedResize != wasForcedResize)
             {
                 if (isForcedResize)
                 {
@@ -89,7 +72,7 @@ namespace _2048_Graph
                     WindowBorder = WindowBorder.Resizable;
                 }
                 wasForcedResize = isForcedResize;
-            }
+            }*/
 
             screenManager.Update(TimeSpan.FromSeconds(e.Time));
         }
@@ -103,23 +86,6 @@ namespace _2048_Graph
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             screenManager.Draw(TimeSpan.FromSeconds(e.Time));
-            /*Tex.Bind();
-            DrawHelper.Draw2DSprite(0, 0, 128, 128);
-            DrawHelper.Draw2DSprite(128, 0, 128, 128);
-            DrawHelper.Draw2DSprite(0, 128, 128, 128);
-            DrawHelper.Draw2DSprite(128, 128, 128, 128);
-            DrawHelper.Draw2DSprite(256, 0, 128, 128);
-            DrawHelper.Draw2DSprite(0, 256, 128, 128);
-            DrawHelper.Draw2DSprite(256, 256, 128, 128);
-            DrawHelper.Draw2DSprite(256, 128, 128, 128);
-            DrawHelper.Draw2DSprite(128, 256, 128, 128);
-            DrawHelper.Draw2DSprite(384, 0, 128, 128);
-            DrawHelper.Draw2DSprite(384, 128, 128, 128);
-            DrawHelper.Draw2DSprite(384, 256, 128, 128);
-            DrawHelper.Draw2DSprite(384, 384, 128, 128);
-            DrawHelper.Draw2DSprite(0, 384, 128, 128);
-            DrawHelper.Draw2DSprite(128, 384, 128, 128);
-            DrawHelper.Draw2DSprite(256, 384, 128, 128);*/
 
             SwapBuffers();
         }

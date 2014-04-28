@@ -58,6 +58,7 @@
     <Compile Include="Bounds\RectangleBound.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\Control.cs" />
+    <Compile Include="Controls\ShakingButton.cs" />
     <Compile Include="Helper\DrawHelper.cs" />
     <Compile Include="Helper\InputHelper.cs" />
     <Compile Include="Helper\Text.cs" />

@@ -13,9 +13,10 @@ namespace _2048_Graph.FlappyBird
 {
     public class GameFlappyBirdScreen : Screen
     {
-        private Texture background;
+        private Sprite background;
         private Bird bird;
         private List<Pipe> pipes;
+        private bool hasStarted = false;
 
         public GameFlappyBirdScreen(ScreenManager manager)
             : base(manager)
@@ -23,30 +24,28 @@ namespace _2048_Graph.FlappyBird
             OpeningTransition = new TranslationTransition(Transition.Types.Opening, TranslationTransition.Directions.Left);
             ClosingTransition = new TranslationTransition(Transition.Types.Closing, TranslationTransition.Directions.Right);
 
-            background = TextureHelper.LoadTexture("Sprites\\FlappyBird\\background.png");
+            Texture tex = TextureHelper.LoadTexture("Sprites\\FlappyBird\\background.png");
+            background = new Sprite(tex, Manager.Width, manager.Height, new Vector4(0, 0, 1920 / (tex.Width * (1080f / tex.Height)), 1f));
 
             bird = new Bird();
             pipes = new List<Pipe>();
+
+            InputHelper.Keyboard.KeyDown += Keyboard_KeyDown;
         }
 
-        public override void Open()
+        void Keyboard_KeyDown(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
         {
-            base.Open();
-
-            Game.ForceResize(background.Width * 6, background.Height * 3);
-        }
-
-        public override void Close()
-        {
-            base.Close();
-
-            Game.FreeResize();
+            if (!hasStarted && e.Key == OpenTK.Input.Key.Space)
+                hasStarted = true;
         }
 
         float timer;
         public override void Update(TimeSpan elapsed, bool isInForeground)
         {
             base.Update(elapsed, isInForeground);
+
+            if (!hasStarted)
+                return;
 
             bird.Update(elapsed);
 
@@ -62,10 +61,10 @@ namespace _2048_Graph.FlappyBird
             }
 
             timer += (float)elapsed.TotalSeconds;
-            if (timer >= 2)
+            if (timer >= 3)
             {
                 AddNewPipe();
-                timer -= 2;
+                timer -= 3;
             }
 
             if (State == States.Opened && bird.IsDead)
@@ -108,9 +107,7 @@ namespace _2048_Graph.FlappyBird
 
             ApplyTransitionTransformation();
 
-            background.Bind();
-            DrawHelper.Draw2DSprite(0, 0, background.Width * 3, background.Height * 3, -1);
-            DrawHelper.Draw2DSprite(background.Width * 3, 0, background.Width * 3, background.Height * 3, -1);
+            background.Draw(0, 0, 1f, 0, -1);
 
             bird.Draw(elapsed);
             foreach (Pipe pipe in pipes)

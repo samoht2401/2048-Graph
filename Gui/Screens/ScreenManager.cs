@@ -83,6 +83,7 @@ namespace Gui.Screens
                 screen.Draw(elapsed, screen == foregroundScreen);
             }
             Screens.Reverse();
+            DrawHelper.DrawBorderMask();
         }
 
         public void MouseMoveEvent(object sender, MouseMoveEventArgs e)

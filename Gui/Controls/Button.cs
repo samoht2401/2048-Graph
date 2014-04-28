@@ -81,17 +81,7 @@ namespace Gui.Controls
         {
             Sprite currentSprite = Sprites.Sprites[State.ToString()];
             currentSprite.Texture.Bind();
-            GL.MatrixMode(MatrixMode.Modelview);
-           /* GL.PushMatrix();
-            int scaleX = Bound.getMaxWidth() / 2;
-            int scaleY = Bound.getMaxHeight() / 2;
-            double transX = Bound.getMinX() + scaleX;
-            double transY = Bound.getMinY() + scaleY;
-            GL.Translate(transX, transY, 0);
-            GL.Scale(scaleX, scaleY, 0);*/
-
             DrawHelper.Draw2DSprite(Bound.getMinX(), Bound.getMinY(), Bound.getMaxWidth(), Bound.getMaxHeight());
-            //GL.PopMatrix();
         }
     }
 }

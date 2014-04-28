@@ -94,9 +94,9 @@ namespace Gui.Screens
         }
         protected void UndoTransitionTransformation()
         {
-            if (State == States.Opening)
+            if (State == States.Opening || State == States.Opened || State == States.Sleeping)
                 OpeningTransition.UndoTransformation(this);
-            else if (State == States.Closing)
+            else if (State == States.Closing || State == States.FullyClosed)
                 ClosingTransition.UndoTransformation(this);
         }
 

@@ -17,8 +17,9 @@ namespace _2048_Graph._2048
 {
     public class Game2048Screen : Screen
     {
-        private Dictionary<int, Texture> TextureNumbersDic = new Dictionary<int, Texture>();
-        private Texture background;
+        private Dictionary<int, Sprite> TextureNumbersDic = new Dictionary<int, Sprite>();
+        private Sprite background;
+        private float backgroundScale;
         private Text scoreTex;
         private int oldScore = 0;
         private int score = 0;
@@ -34,27 +35,31 @@ namespace _2048_Graph._2048
             OpeningTransition = new TranslationTransition(Transition.Types.Opening, TranslationTransition.Directions.Left);
             ClosingTransition = new TranslationTransition(Transition.Types.Closing, TranslationTransition.Directions.Right);
 
-            TextureNumbersDic.Add(2, TextureHelper.LoadTexture("Sprites\\2048\\2.png"));
-            TextureNumbersDic.Add(4, TextureHelper.LoadTexture("Sprites\\2048\\4.png"));
-            TextureNumbersDic.Add(8, TextureHelper.LoadTexture("Sprites\\2048\\8.png"));
-            TextureNumbersDic.Add(16, TextureHelper.LoadTexture("Sprites\\2048\\16.png"));
-            TextureNumbersDic.Add(32, TextureHelper.LoadTexture("Sprites\\2048\\32.png"));
-            TextureNumbersDic.Add(64, TextureHelper.LoadTexture("Sprites\\2048\\64.png"));
-            TextureNumbersDic.Add(128, TextureHelper.LoadTexture("Sprites\\2048\\128.png"));
-            TextureNumbersDic.Add(256, TextureHelper.LoadTexture("Sprites\\2048\\256.png"));
-            TextureNumbersDic.Add(512, TextureHelper.LoadTexture("Sprites\\2048\\512.png"));
-            TextureNumbersDic.Add(1024, TextureHelper.LoadTexture("Sprites\\2048\\1024.png"));
-            TextureNumbersDic.Add(2048, TextureHelper.LoadTexture("Sprites\\2048\\2048.png"));
-            background = TextureHelper.LoadTexture("Sprites\\2048\\grille.png");
+            Texture tex = TextureHelper.LoadTexture("Sprites\\2048\\grille.png");
+            background = new Sprite(tex, (int)((float)tex.Width / tex.Height * Manager.Height), Manager.Height);
+            backgroundScale = (float)background.Height / tex.Height;
+            int size = (int)(backgroundScale * 106);
+            TextureNumbersDic.Add(2, new Sprite(TextureHelper.LoadTexture("Sprites\\2048\\2.png"), size, size));
+            TextureNumbersDic.Add(4, new Sprite(TextureHelper.LoadTexture("Sprites\\2048\\4.png"), size, size));
+            TextureNumbersDic.Add(8, new Sprite(TextureHelper.LoadTexture("Sprites\\2048\\8.png"), size, size));
+            TextureNumbersDic.Add(16, new Sprite(TextureHelper.LoadTexture("Sprites\\2048\\16.png"), size, size));
+            TextureNumbersDic.Add(32, new Sprite(TextureHelper.LoadTexture("Sprites\\2048\\32.png"), size, size));
+            TextureNumbersDic.Add(64, new Sprite(TextureHelper.LoadTexture("Sprites\\2048\\64.png"), size, size));
+            TextureNumbersDic.Add(128, new Sprite(TextureHelper.LoadTexture("Sprites\\2048\\128.png"), size, size));
+            TextureNumbersDic.Add(256, new Sprite(TextureHelper.LoadTexture("Sprites\\2048\\256.png"), size, size));
+            TextureNumbersDic.Add(512, new Sprite(TextureHelper.LoadTexture("Sprites\\2048\\512.png"), size, size));
+            TextureNumbersDic.Add(1024, new Sprite(TextureHelper.LoadTexture("Sprites\\2048\\1024.png"), size, size));
+            TextureNumbersDic.Add(2048, new Sprite(TextureHelper.LoadTexture("Sprites\\2048\\2048.png"), size, size));
+
             scoreTex = new Text(score.ToString());
-            scoreTex.Font = new Font("Arial", 24, FontStyle.Regular);
+            scoreTex.Font = new Font("Arial", 34, FontStyle.Regular);
 
             InputHelper.Keyboard.KeyDown += Keyboard_KeyDown;
 
             GetNewNumber();
         }
 
-        public override void Open()
+        /*public override void Open()
         {
             base.Open();
 
@@ -66,7 +71,7 @@ namespace _2048_Graph._2048
             base.Close();
 
             Game.FreeResize();
-        }
+        }*/
 
         public override void Update(TimeSpan elapsed, bool isInForeground)
         {
@@ -78,10 +83,10 @@ namespace _2048_Graph._2048
             if (score != oldScore)
             {
                 scoreTex.Texte = score.ToString();
-                if(score>999 && oldScore <=999)
-                    scoreTex.Font = new Font("Arial", 18, FontStyle.Regular);
+                if (score > 999 && oldScore <= 999)
+                    scoreTex.Font = new Font("Arial", 30, FontStyle.Regular);
                 if (score > 9999 && oldScore <= 9999)
-                    scoreTex.Font = new Font("Arial", 16, FontStyle.Regular);
+                    scoreTex.Font = new Font("Arial", 24, FontStyle.Regular);
             }
             oldScore = score;
         }
@@ -322,9 +327,10 @@ namespace _2048_Graph._2048
             base.Draw(elapsed, isInForeground);
             ApplyTransitionTransformation();
 
-            background.Bind();
-            DrawHelper.Draw2DSprite(0, 0, 533, 670, -1);
-            scoreTex.Draw(380, 50, 0,true);
+            int xOffset = Manager.Width / 2 - background.Width / 2;
+            float bs = backgroundScale;
+            background.Draw(xOffset, 0, 1f, 0, -1);
+            scoreTex.Draw(xOffset + (int)(380 * bs), (int)(50 * bs), 0, 0, true);
 
             for (int x = 0; x < 4; x++)
             {
@@ -332,8 +338,7 @@ namespace _2048_Graph._2048
                 {
                     if (tableau[x, y] != 0)
                     {
-                        TextureNumbersDic[tableau[x, y]].Bind();
-                        DrawHelper.Draw2DSprite(27 + 121 * x, 175 + 121 * y, 106, 106);
+                        TextureNumbersDic[tableau[x, y]].Draw(xOffset + (int)(28 * bs + 121 * x * bs), (int)(175 * bs + 121 * y * bs));
                     }
                 }
             }

@@ -67,7 +67,7 @@ namespace Gui.Helper
             tex = null;
         }
 
-        public void Draw(int x, int y, float depth = 0, bool centered = false)
+        public void Draw(int x, int y, float rotate =0, float depth = 0, bool centered = false)
         {
             if (needRedraw)
             {
@@ -78,7 +78,7 @@ namespace Gui.Helper
             if (tex != null)
             {
                 tex.Bind();
-                DrawHelper.Draw2DSprite(x, y, tex.Width, tex.Height, depth, centered);
+                DrawHelper.Draw2DSprite(x, y, tex.Width, tex.Height, rotate, depth, centered);
             }
         }
     }

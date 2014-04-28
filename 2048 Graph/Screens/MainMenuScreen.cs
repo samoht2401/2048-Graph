@@ -16,8 +16,6 @@ namespace _2048_Graph.Screens
 {
     public class MainMenuScreen : Screen
     {
-        Texture testTex;
-        Animation birdAnim;
         float lastWheel;
         float zoom = 1;
 
@@ -28,20 +26,27 @@ namespace _2048_Graph.Screens
             ClosingTransition = new TranslationTransition(Transition.Types.Closing, TranslationTransition.Directions.Right);
 
             CompoundSprite sprites = new CompoundSprite();
-            sprites.Add("Idle", new Sprite(TextureHelper.LoadTexture("Sprites\\Button\\base_released.png"), 256, 64));
-            sprites.Add("Overflew", new Sprite(TextureHelper.LoadTexture("Sprites\\Button\\base_released.png"), 256, 64));
-            sprites.Add("Pressed", new Sprite(TextureHelper.LoadTexture("Sprites\\Button\\base_pressed.png"), 256, 64));
-            Controls.Add("button", new Button(sprites, RectangleBound.New(100, 100, 400, 100), 500));
-            ((Button)Controls["button"]).Click += button_MouseButtonDown;
+            Texture buttonTex = TextureHelper.LoadTexture("Sprites\\Button\\2048_button.png");
+            sprites.Add("Idle", new Sprite(buttonTex, 256, 64));
+            sprites.Add("Overflew", new Sprite(buttonTex, 256, 64));
+            sprites.Add("Pressed", new Sprite(buttonTex, 256, 64));
+            Controls.Add("2048_button", new ShakingButton(sprites, DrawHelper.GetBoundRelativeOnScreen(0.5f, 0.2f, buttonTex.Width / 2, buttonTex.Height / 2), 100));
+            ((Button)Controls["2048_button"]).Click += _2048_button_MouseButtonDown;
 
-            SpriteSheet birdSheet = new SpriteSheet("Sprites\\FlappyBird\\bird_17x12.png", 17, 12);
-            birdAnim = new Animation(birdSheet, 20f, true);
-
-            //testTex = TextureHelper.LoadTexture("Sprites\\pieuvre.png");
-            testTex = TextureHelper.LoadTexture("supernova.png");
+            sprites = new CompoundSprite();
+            buttonTex = TextureHelper.LoadTexture("Sprites\\Button\\flappyBird_button.png");
+            sprites.Add("Idle", new Sprite(buttonTex, 256, 64));
+            sprites.Add("Overflew", new Sprite(buttonTex, 256, 64));
+            sprites.Add("Pressed", new Sprite(buttonTex, 256, 64));
+            Controls.Add("flappyBird_button", new ShakingButton(sprites, DrawHelper.GetBoundRelativeOnScreen(0.5f, 0.7f, buttonTex.Width * 5, buttonTex.Height * 5), 100));
+            ((Button)Controls["flappyBird_button"]).Click += flappyBird_button_MouseButtonDown;
         }
 
-        void button_MouseButtonDown(object sender, GuiMouseButtonEventArgs e)
+        void _2048_button_MouseButtonDown(object sender, GuiMouseButtonEventArgs e)
+        {
+            Manager.CloseAllAndThenOpen(new Game2048Screen(Manager));
+        }
+        void flappyBird_button_MouseButtonDown(object sender, GuiMouseButtonEventArgs e)
         {
             Manager.CloseAllAndThenOpen(new GameFlappyBirdScreen(Manager));
         }
@@ -60,7 +65,6 @@ namespace _2048_Graph.Screens
                     zoom /= -diff;
                 lastWheel = InputHelper.Mouse.WheelPrecise;
             }
-            DrawHelper.Zoom = zoom;
         }
 
         public override void Draw(TimeSpan elapsed, bool isInForeground)
@@ -70,11 +74,6 @@ namespace _2048_Graph.Screens
             int size = Math.Max(Manager.Width, Manager.Height) / 2;
 
             ApplyTransitionTransformation();
-
-            testTex.Bind();
-            DrawHelper.Draw2DSprite(0, 0, 1024, 1024, -1f);
-
-            birdAnim.Draw((float)elapsed.TotalSeconds, 60, 200, 5);
 
             DrawControls(elapsed, isInForeground);
 

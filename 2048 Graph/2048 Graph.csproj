@@ -122,6 +122,9 @@
     <Content Include="Img\Sprites\2048\8.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Img\Sprites\Button\2048_button.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Img\Sprites\Button\base_pressed.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -129,6 +132,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Img\Sprites\2048\grille.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\Sprites\Button\flappyBird_button.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Img\Sprites\FlappyBird\background.png">

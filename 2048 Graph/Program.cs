@@ -11,6 +11,7 @@ namespace _2048_Graph
         static void Main(string[] args)
         {
             Game game = new Game();
+            //game.WindowState = OpenTK.WindowState.Fullscreen;
             game.Run(20, 60);
             game.Title = "Game";
         }
