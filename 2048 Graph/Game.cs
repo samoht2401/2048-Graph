@@ -83,6 +83,7 @@ namespace _2048_Graph
 
             DrawHelper.Update();
 
+            //GL.ClearColor(1, 0, 0, 1);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             screenManager.Draw(TimeSpan.FromSeconds(e.Time));

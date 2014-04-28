@@ -172,18 +172,12 @@ namespace Gui.Helper
                 GL.Begin(PrimitiveType.QuadStrip);
                 GL.Vertex3(-bigNumber, -bigNumber, 1.1f);
                 GL.Vertex3(0, 0, 1.1f);
-                GL.Vertex3(1920, 0, 1.1f);
                 GL.Vertex3(bigNumber, -bigNumber, 1.1f);
                 GL.Vertex3(1920, 0, 1.1f);
-                GL.Vertex3(bigNumber, -bigNumber, 1.1f);
                 GL.Vertex3(bigNumber, bigNumber, 1.1f);
                 GL.Vertex3(1920, 1080, 1.1f);
-                GL.Vertex3(bigNumber, bigNumber, 1.1f);
-                GL.Vertex3(1920, 1080, 1.1f);
-                GL.Vertex3(0, 1080, 1.1f);
                 GL.Vertex3(-bigNumber, bigNumber, 1.1f);
                 GL.Vertex3(0, 1080, 1.1f);
-                GL.Vertex3(-bigNumber, bigNumber, 1.1f);
                 GL.Vertex3(-bigNumber, -bigNumber, 1.1f);
                 GL.Vertex3(0, 0, 1.1f);
                 GL.End();
